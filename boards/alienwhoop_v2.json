@@ -1,0 +1,112 @@
+{
+  "name": "alienwhoop_v2",
+  "vendor": "",
+  "url": "",
+  "build": {
+    "core": "stm32",
+    "cpu": "cortex-m4",
+    "extra_flags": "-DSTM32F405xx -DSTM32F4xx -DSTM32F4",
+    "f_cpu": "168000000L",
+    "mcu": "stm32f405rg",
+    "product_line": "STM32F405xx",
+    "variant": "Generic_F4x5RG"
+  },
+  "debug": {
+    "jlink_device": "STM32F405RG",
+    "openocd_target": "stm32f4x",
+    "svd_path": "STM32F40x.svd"
+  },
+  "frameworks": [
+    "cmsis",
+    "stm32cube"
+  ],
+  "upload": {
+    "maximum_ram_size": 131072,
+    "maximum_size": 1048576,
+    "protocol": "serial",
+    "protocols": [
+      "blackmagic",
+      "dfu",
+      "jlink",
+      "serial",
+      "stlink"
+    ]
+  },
+  "system": "stm32f4xx",
+  "ports": {
+    "spi": [
+      {
+        "index": 1,
+        "sck": "PA5",
+        "miso": "PA6",
+        "mosi": "PA7",
+        "dma": {
+          "port": 2,
+          "channel": 4,
+          "rx_stream": 2,
+          "tx_stream": 3
+        }
+      },
+      {
+        "index": 2,
+        "sck": "PB13",
+        "miso": "PB14",
+        "mosi": "PB15",
+        "dma": {
+          "port": 1,
+          "channel": 0,
+          "rx_stream": 3,
+          "tx_stream": 4
+        }
+      },
+      {
+        "index": 3,
+        "sck": "PB3",
+        "miso": "PB4",
+        "mosi": "PB5",
+        "dma": {
+          "port": 1,
+          "channel": 0,
+          "rx_stream": 0,
+          "tx_stream": 7
+        }
+      }
+    ],
+    "uart": [
+      {
+        "index": 2,
+        "rx": "PA3",
+        "tx": "PA2"
+      },
+      {
+        "index": 3,
+        "rx": "PC11",
+        "tx": "PC10"
+      }
+    ]
+  },
+  "devices": {
+    "led": [
+      {
+        "index": 1,
+        "pin": "PC12",
+        "invert": false
+      },
+      {
+        "index": 2,
+        "pin": "PD2",
+        "invert": false
+      }
+    ],
+    "gyro": [
+      {
+        "index": 1,
+        "type": "mpu6000",
+        "spi": {
+          "port": 1,
+          "nss": "PA4"
+        }
+      }
+    ]
+  }
+}

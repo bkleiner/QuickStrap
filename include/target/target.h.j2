@@ -1,0 +1,119 @@
+// ###########################
+// GENERATED FILE, DO NOT EDIT
+// TARGET: {{ name }}
+// ###########################
+
+#pragma once
+
+#include "system/{{ system }}/system.h"
+#include "driver/led.h"
+#include "driver/gyro/gyro.h"
+
+#define TARGET_NAME "{{ name }}"
+
+{% for uart in ports.uart %}
+#define USE_UART_PORT_{{ uart.index }}
+{%- endfor %}
+
+enum uart_port_names {
+{%- for uart in ports.uart %}
+  UART_PORT_{{ uart.index }},
+{%- endfor %}
+  UART_PORT_MAX
+};
+
+static const struct uart_port_def uart_ports[UART_PORT_MAX] = {
+{%- for uart in ports.uart %}
+  {
+    .index = {{ uart.index }},
+    .channel = {{ uart.type }}{{ uart.index }},
+    .irq = {{ uart.type }}{{ uart.index }}_IRQn,
+    .rx = {
+      .pin = &{{ uart.rx.pin }},
+      .af = {{ uart.rx.af }},
+    },
+    .tx = {
+      .pin = &{{ uart.tx.pin }},
+      .af = {{ uart.tx.af }},
+    },
+  },
+{%- endfor %}
+};
+
+enum spi_port_names {
+{%- for spi in ports.spi %}
+  SPI_PORT_{{ spi.index }},
+{%- endfor %}
+  SPI_PORT_MAX
+};
+
+static const struct spi_port_def spi_ports[SPI_PORT_MAX] = {
+{%- for spi in ports.spi %}
+  {
+    .index = {{ spi.index }},
+    .channel = SPI{{ spi.index }},
+    .sck = {
+      .pin = &{{ spi.sck.pin }},
+      .af = {{ spi.sck.af }},
+    },
+    .miso = {
+      .pin = &{{ spi.miso.pin }},
+      .af = {{ spi.miso.af }},
+    },
+    .mosi = {
+      .pin = &{{ spi.mosi.pin }},
+      .af = {{ spi.mosi.af }},
+    },
+    {%- set rx_dma_offset = 'H' if spi.dma.rx_stream >= 4 else 'L' %}
+    {%- set tx_dma_offset = 'H' if spi.dma.tx_stream >= 4 else 'L' %}
+    .dma = {
+      .dma_port = {{ spi.dma.port }},
+      .channel = LL_DMA_CHANNEL_{{ spi.dma.channel }},
+      .index = {{ spi.dma.channel }},
+      .rx_stream_index = {{ spi.dma.rx_stream }},
+      .rx_stream = DMA{{ spi.dma.port }}_Stream{{ spi.dma.rx_stream }},
+      .rx_tci_flag = DMA_{{ rx_dma_offset }}ISR_TCIF{{ spi.dma.rx_stream }},
+      .rx_it = DMA{{ spi.dma.port }}_Stream{{ spi.dma.rx_stream }}_IRQn,
+      .rx_it_flag = DMA_{{ rx_dma_offset }}IFCR_CTCIF{{ spi.dma.rx_stream }},
+      .tx_stream_index = {{ spi.dma.tx_stream }},
+      .tx_stream = DMA{{ spi.dma.port }}_Stream{{ spi.dma.tx_stream }},
+      .tx_tci_flag = DMA_{{ tx_dma_offset }}ISR_TCIF{{ spi.dma.tx_stream }},
+      .tx_it = DMA{{ spi.dma.port }}_Stream{{ spi.dma.tx_stream }}_IRQn,
+      .tx_it_flag = DMA_{{ tx_dma_offset }}IFCR_CTCIF{{ spi.dma.tx_stream }},
+    },
+  },
+{%- endfor %}
+};
+
+enum led_pin_names {
+{%- for led in devices.led %}
+  LED_PIN_{{ led.index }},
+{%- endfor %}
+  LED_PIN_MAX
+};
+
+static const led_pin_def_t led_defs[LED_PIN_MAX] = {
+{%- for led in devices.led %}
+  {
+    .index = {{ led.index }},
+    .pin = &{{ led.pin }},
+    .invert = {{ 1 if led.invert else 0}},
+  },
+{%- endfor %}
+};
+
+enum gyro_names {
+{%- for gyro in devices.gyro %}
+  GYRO_{{ gyro.index }},
+{%- endfor %}
+  GYRO_MAX
+};
+
+static const spi_device_def_t gyro_defs[GYRO_MAX] = {
+{%- for dev in devices.gyro %}
+  {
+    .port = &spi_ports[{{ dev.spi.port }}],
+    .nss = &{{ dev.spi.nss }},
+  },
+{%- endfor %}
+};
