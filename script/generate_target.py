@@ -101,12 +101,14 @@ class DevicesCache(dict):
         return value
 
 class Target:
-
-    def __init__(self, name):
+    def __init__(self):
         devices = DevicesCache()
         devices.build()
-        self.dev = devices[name]
+        self.name = env.GetProjectOption("target")
+        with open(os.path.join("targets", self.name + ".json")) as f:
+            self.target = json.load(f)
         self.board = env.BoardConfig()
+        self.dev = devices[self.board.get("device")]
 
     def get_pin(self, name):
         port = name[1].lower()
@@ -142,15 +144,15 @@ class Target:
 
     def build(self):
         info = {
-            "name": self.board.get("name"),
+            "name": self.target["name"],
             "system": self.board.get("system"),
             "ports": {},
-            "devices": self.board.get("devices"),
+            "devices": self.target["devices"],
         }
 
-        if self.board.get("ports.uart"):
+        if self.target["ports"]["uart"]:
             info["ports"]["uart"] = []
-            for u in self.board.get("ports.uart"):
+            for u in self.target["ports"]["uart"]:
                 port_type = "usart"
                 if not self.has_port("usart", u["index"]):
                     if not self.has_port("uart", u["index"]):
@@ -165,9 +167,9 @@ class Target:
                 }
                 info["ports"]["uart"].append(port)
 
-        if self.board.get("ports.spi"):
+        if self.target["ports"]["spi"]:
             info["ports"]["spi"] = []
-            for s in self.board.get("ports.spi"):
+            for s in self.target["ports"]["spi"]:
                 port = {
                     "index": s["index"],
 
@@ -182,7 +184,8 @@ class Target:
         print(json.dumps(info, sort_keys=False, indent=4))
         return info
 
-target = Target("stm32f405rgt6")
+
+target = Target()
 
 with open('include/target/target.h.j2') as template:
   template = jinja2.Template(template.read())
