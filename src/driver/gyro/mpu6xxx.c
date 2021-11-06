@@ -4,8 +4,8 @@
 
 #include "target/target.h"
 
-#include "system/clock.h"
-#include "system/spi.h"
+#include "driver/clock.h"
+#include "driver/spi.h"
 
 #define MPU_BIT_SLEEP 0x40
 #define MPU_BIT_H_RESET 0x80

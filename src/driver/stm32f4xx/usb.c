@@ -1,4 +1,4 @@
-#include "system/usb.h"
+#include "driver/usb.h"
 
 #include <string.h>
 
@@ -7,8 +7,8 @@
 #include <usb.h>
 #include <usb_cdc.h>
 
-#include "system/gpio.h"
-#include "system/stm32f4xx/gpio_pin.h"
+#include "driver/gpio.h"
+#include "driver/stm32f4xx/gpio_pin.h"
 
 #include "util/ring_buffer.h"
 

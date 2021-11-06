@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "system/stm32f4xx/system.h"
+#include "driver/stm32f4xx/system.h"
 #include "driver/led.h"
 #include "driver/gyro/gyro.h"
 
@@ -203,7 +203,7 @@ enum gyro_names {
 
 static const spi_device_def_t gyro_defs[GYRO_MAX] = {
   {
-    .port = &spi_ports[1],
+    .port = &spi_ports[0],
     .nss = &PA4,
   },
 };

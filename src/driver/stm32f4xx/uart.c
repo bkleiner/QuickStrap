@@ -1,4 +1,4 @@
-#include "system/uart.h"
+#include "driver/uart.h"
 
 #include "target/target.h"
 

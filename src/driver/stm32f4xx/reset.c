@@ -1,4 +1,4 @@
-#include "system/reset.h"
+#include "driver/reset.h"
 
 #include <stdint.h>
 

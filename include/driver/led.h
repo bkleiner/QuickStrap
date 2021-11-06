@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "system/gpio.h"
+#include "driver/gpio.h"
 
 typedef enum {
   LED_1,

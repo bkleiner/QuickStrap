@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "system/usb.h"
+#include "driver/usb.h"
 
 void debug_print(const char *str) {
   usb_serial_write((const uint8_t *)str, strlen(str));

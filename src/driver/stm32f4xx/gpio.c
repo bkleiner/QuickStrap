@@ -1,9 +1,9 @@
-#include "system/gpio.h"
+#include "driver/gpio.h"
 
 #include <stm32f4xx_ll_gpio.h>
 #include <stm32f4xx_ll_rcc.h>
 
-#include "system/stm32f4xx/gpio_pin.h"
+#include "driver/stm32f4xx/gpio_pin.h"
 
 void gpio_init() {
   SET_BIT(

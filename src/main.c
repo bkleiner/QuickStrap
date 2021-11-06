@@ -2,11 +2,11 @@
 
 #include "target/target.h"
 
-#include "system/clock.h"
-#include "system/gpio.h"
-#include "system/reset.h"
+#include "driver/clock.h"
+#include "driver/gpio.h"
+#include "driver/reset.h"
 
-#include "system/uart.h"
+#include "driver/uart.h"
 
 #include "driver/debug.h"
 #include "driver/gyro/gyro.h"

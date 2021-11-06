@@ -1,6 +1,6 @@
 #include "core/usb/configurator.h"
 
-#include "system/reset.h"
+#include "driver/reset.h"
 
 void usb_update() {
   uint8_t data = 0;

@@ -1,4 +1,4 @@
-#include "system/spi.h"
+#include "driver/spi.h"
 
 #include <stm32f4xx_ll_bus.h>
 #include <stm32f4xx_ll_rcc.h>
@@ -89,11 +89,18 @@ void spi_init(const spi_device_def_t *dev, uint32_t mode) {
   }
 
   init.NSS = LL_SPI_NSS_SOFT;
-  init.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV2;
+  init.BaudRate = LL_SPI_BAUDRATEPRESCALER_DIV64;
   init.BitOrder = LL_SPI_MSB_FIRST;
+  init.CRCCalculation = LL_SPI_CRCCALCULATION_DISABLE;
+  init.CRCPoly = 7;
 
   LL_SPI_Init(dev->port->channel, &init);
   LL_SPI_Enable(dev->port->channel);
+
+  // Dummy read to clear receive buffer
+  while (LL_SPI_IsActiveFlag_TXE(dev->port->channel) == RESET)
+    ;
+  LL_SPI_ReceiveData8(dev->port->channel);
 }
 
 static void spi_init_dma(const spi_device_def_t *dev) {

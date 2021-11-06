@@ -1,6 +1,6 @@
 #pragma once
 
-#include "system/usb.h"
+#include "driver/usb.h"
 
 typedef enum {
   USB_MAGIC_REBOOT = 'R',

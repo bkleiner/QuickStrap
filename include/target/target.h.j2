@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "system/{{ system }}/system.h"
+#include "driver/{{ system }}/system.h"
 #include "driver/led.h"
 #include "driver/gyro/gyro.h"
 
@@ -112,7 +112,7 @@ enum gyro_names {
 static const spi_device_def_t gyro_defs[GYRO_MAX] = {
 {%- for dev in devices.gyro %}
   {
-    .port = &spi_ports[{{ dev.spi.port }}],
+    .port = &spi_ports[{{ dev.spi.port - 1 }}],
     .nss = &{{ dev.spi.nss }},
   },
 {%- endfor %}

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "system/spi.h"
+#include "driver/spi.h"
 
 typedef struct {
   float gyro[3];

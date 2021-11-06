@@ -1,6 +1,6 @@
 #include "driver/led.h"
 
-#include "system/gpio.h"
+#include "driver/gpio.h"
 #include "target/target.h"
 
 void led_init() {
